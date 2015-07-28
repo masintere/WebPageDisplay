@@ -56,7 +56,7 @@ public class htmlFormater {
 	
 	/**
 	 * replaces all < and > in html code with &lt and &gt
-	 * @return the new html code
+	 * @return the new html cod
 	 */
 	public String format(){
 		html = html.replaceAll("<", "&lt");

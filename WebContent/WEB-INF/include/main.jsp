@@ -6,7 +6,8 @@
 	<body>
 	<div class="page">
 		<div class="header">	
-			<form target="dynamic">
+
+			<form id="myForm" target="dynamic">
 				
 				URL: 
 				<input type="text" name="url">
@@ -20,12 +21,20 @@
 	              <option value="mobile">mobile</option>
 	            </select>
 	            
-	            <input type="submit" value="Submit">
+	            <button type ="submit" value="Submit" onclick="myFunction()">Submit</button>
 			</form>
 			
-			<p>Number of times site was used = ${count}</p>
-			<p></p>
+			<p id="numUsed"></p>
 			
+			<script>
+			count = ${count};
+			function myFunction(){
+				count++;
+				document.getElementById("numUsed").innerHTML = "Number of times site was used = " + count;
+				document.getElementById("myForm").submit();
+			}
+			</script>
+	
 		</div>
 	</div>
 	</body>

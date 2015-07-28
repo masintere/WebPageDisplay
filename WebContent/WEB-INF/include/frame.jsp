@@ -10,5 +10,5 @@
 			<frame name="fixed" src="${pageContext.request.contextPath}/controller"></frame>
 			<frame name="dynamic" src="${pageContext.request.contextPath}/index"></frame>
 		</frameset>
-	
+		
 </html>
