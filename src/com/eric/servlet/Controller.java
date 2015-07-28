@@ -1,7 +1,6 @@
 package com.eric.servlet;
 
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.ServletContext;
 //Servlet import packages
@@ -14,9 +13,9 @@ import javax.servlet.http.HttpSession;
 //baseLib imports
 import com.baselib.servlet.BaseServlet;
 import com.eric.pojo.URLParser;
-import com.eric.pojo.htmlFormater;
+import com.eric.pojo.HtmlFormater;
 //project imports
-import com.eric.pojo.webAccessor;
+import com.eric.pojo.WebAccessor;
 /**
  * Servlet implementation class Controller
  */
@@ -48,7 +47,7 @@ public class Controller extends BaseServlet {
 		session.setAttribute("count", counts);
 		}
 		String url=null;
-		webAccessor wa = null;
+		WebAccessor wa = null;
 		if(req.getParameter("url") != null){
 			url="";
 			String format = req.getParameter("format");
@@ -60,16 +59,16 @@ public class Controller extends BaseServlet {
 			url = up.getUrl();
 			
 			if(display.equals("desktop")){
-				wa = new webAccessor(url, "User-Agent", "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:38.0) Gecko/20100101 Firefox/38.0");
+				wa = new WebAccessor(url, "User-Agent", "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:38.0) Gecko/20100101 Firefox/38.0");
 			}
 			else if(display.equals("mobile")){
-				wa = new webAccessor(url, "User-Agent", "Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0");
+				wa = new WebAccessor(url, "User-Agent", "Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0");
 			}
 			else{
-				wa = new webAccessor(url, "User-Agent", "Mozilla/5.0 (Android 4.4; Tablet; rv:41.0) Gecko/41.0 Firefox/41.0");
+				wa = new WebAccessor(url, "User-Agent", "Mozilla/5.0 (Android 4.4; Tablet; rv:41.0) Gecko/41.0 Firefox/41.0");
 			}
 			// TODO: Evaluate using three seperate user agents
-			htmlFormater hf = new htmlFormater(wa.getHtml(), display, url);
+			HtmlFormater hf = new HtmlFormater(wa.getHtml(), display);
 			//wa.setHtml(hf.displayFormat());
 			
 			if(format.equals("source")){

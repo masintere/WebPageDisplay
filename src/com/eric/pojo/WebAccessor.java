@@ -16,14 +16,14 @@ import com.baselib.pojo.html.*;
  * @since Jul 22, 2015<p/>
  * @updates:
  ****************************************************************************/
-public class webAccessor extends HTMLSpider{
+public class WebAccessor extends HTMLSpider{
 
 	private String html;
 	/**
 	 * @param url
 	 * @throws IOException
 	 */
-	public webAccessor(String url, String userAgent, String browser) throws IOException {
+	public WebAccessor(String url, String userAgent, String browser) throws IOException {
 		super(url, userAgent, browser);
 		html = readData();
 		// TODO Auto-generated constructor stub

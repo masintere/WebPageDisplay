@@ -14,17 +14,15 @@ import java.util.Map;
  * @since Jul 23, 2015<p/>
  * @updates:
  ****************************************************************************/
-public class htmlFormater {
+public class HtmlFormater {
 	private String html;
 	private String display;
-	private String url;
 	public static final String HEAD = "</head>";
 	public static final String HREF = "href=\"";
 
-	public htmlFormater(String html, String display, String url){
+	public HtmlFormater(String html, String display){
 		this.html = html;
 		this.display = display;
-		this.url = url;
 	}
 	
 	public String displayFormat(){
