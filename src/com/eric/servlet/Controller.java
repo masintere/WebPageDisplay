@@ -1,11 +1,14 @@
 package com.eric.servlet;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
+
 //Servlet import packages
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -21,13 +24,23 @@ import com.eric.pojo.WebAccessor;
  */
 public class Controller extends BaseServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Controller() {
-        super();
-        // TODO Auto-generated constructor stub
+	private ServletContext sc = null;
+	private String mainDisplay = "main.jsp";
+	private String websiteDisplay = "index.jsp";
+	
+	private static final Map<String, String> USER_AGENTS = new HashMap<String, String>() {
+		private static final long serialVersionUID = 1L; {
+			put("desktop", "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:38.0) Gecko/20100101 Firefox/38.0");
+			put("mobile", "Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_0 like Mac OS X; en-us) AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7A341 Safari/528.16");
+			put("tablet", "Mozilla/5.0(iPad; U; CPU iPhone OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B314 Safari/531.21.10");
+	}};
+
+	/*
+	 * (non-Javadoc)
+	 * @see javax.servlet.GenericServlet#init(javax.servlet.ServletConfig)
+	 */
+    public void init(ServletConfig config) {
+    	sc = config.getServletContext();
     }
     
 
@@ -37,57 +50,36 @@ public class Controller extends BaseServlet {
 	@Override
 	public void getAndPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
 		HttpSession session = req.getSession(true);
-		req.getSession().removeAttribute("htmlFormat");
-		Integer counts = (Integer)session.getAttribute("count");
-		if(counts == null){
-		counts = new Integer(1);
-		session.setAttribute("count",  counts);
-		}else{
-		counts++;
-		session.setAttribute("count", counts);
-		}
-		String url=null;
-		WebAccessor wa = null;
-		if(req.getParameter("url") != null){
-			url="";
-			String format = req.getParameter("format");
-			url = req.getParameter("url");
-			String display = req.getParameter("Display");
+		Integer counts = session.getAttribute("count") == null ? 0 : (Integer) session.getAttribute("count");
+		session.setAttribute("count", counts++);
+		String path = mainDisplay;
 		
-			URLParser up = new URLParser(url);
-			up.parseDisplay();
-			url = up.getUrl();
-			
-			if(display.equals("desktop")){
-				wa = new WebAccessor(url, "User-Agent", "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:38.0) Gecko/20100101 Firefox/38.0");
-			}
-			else if(display.equals("mobile")){
-				wa = new WebAccessor(url, "User-Agent", "Mozilla/5.0 (Android 4.4; Mobile; rv:41.0) Gecko/41.0 Firefox/41.0");
-			}
-			else{
-				wa = new WebAccessor(url, "User-Agent", "Mozilla/5.0 (Android 4.4; Tablet; rv:41.0) Gecko/41.0 Firefox/41.0");
-			}
-			// TODO: Evaluate using three seperate user agents
+		if(req.getParameter("url") != null) this.getHtml(req);
+
+		if(req.getAttribute("htmlFormat") != null) path = websiteDisplay;
+		sc.getRequestDispatcher("/WEB-INF/include/" + path).forward(req, res);
+		
+	}
+	
+	/**
+	 * 
+	 * @param req
+	 * @throws IOException
+	 */
+	public void getHtml(HttpServletRequest req) throws IOException {
+		
+		String display = req.getParameter("Display");
+		
+		URLParser up = new URLParser(req.getParameter("url"));
+		WebAccessor wa = new WebAccessor(up.getUrl(), "User-Agent", USER_AGENTS.get(display));
+
+		// TODO: Evaluate using three seperate user agents
+		if(req.getParameter("format").equals("source")){
 			HtmlFormater hf = new HtmlFormater(wa.getHtml(), display);
-			//wa.setHtml(hf.displayFormat());
-			
-			if(format.equals("source")){
-				req.getSession().setAttribute("htmlFormat", hf.format());
-			}
-			else{
-				req.getSession().setAttribute("htmlFormat", wa.getHtml());
-			}
-			req.removeAttribute("url");
-			req.removeAttribute("format");
-			req.removeAttribute("Display");
-			
+			req.setAttribute("htmlFormat", hf.format());
+		} else{
+			req.setAttribute("htmlFormat", wa.getHtml());
 		}
-		ServletContext sc = this.getServletContext();
-		if(url != null){
-			sc.getRequestDispatcher("/WEB-INF/include/index.jsp").forward(req, res);
-		}else{	
-			sc.getRequestDispatcher("/WEB-INF/include/main.jsp").forward(req, res);
-			}
 	}
 
 }

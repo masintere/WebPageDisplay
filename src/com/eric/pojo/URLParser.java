@@ -18,12 +18,14 @@ public class URLParser {
 	
 	public URLParser(String url){
 		this.url = url;
+		this.parseDisplay();
+		System.out.println("URL: " + url);
 	}
 	
 	/**
 	 * appends http:// to the beggining of the url if it isn't there
 	 */
-	public void parseDisplay(){
+	protected void parseDisplay(){
 		if((url.indexOf("http://") + url.indexOf("http://")) <0){
 			url = "http://" + url;
 		}

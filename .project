@@ -3,6 +3,7 @@
 	<name>WebPageDisplay</name>
 	<comment></comment>
 	<projects>
+		<project>BaseLibraries</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

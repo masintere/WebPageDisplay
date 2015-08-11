@@ -26,7 +26,6 @@ public class WebAccessor extends HTMLSpider{
 	public WebAccessor(String url, String userAgent, String browser) throws IOException {
 		super(url, userAgent, browser);
 		html = readData();
-		// TODO Auto-generated constructor stub
 	}
 	
 	public String getHtml(){

@@ -7,7 +7,7 @@
 	<div class="page">
 		<div class="header">	
 
-			<form id="myForm" target="dynamic">
+			<form id="myForm" target="dynamic" action="/WebPageDisplay/controller" method="get">
 				
 				URL: 
 				<input type="text" name="url">
@@ -24,17 +24,7 @@
 	            <button type ="submit" value="Submit" onclick="myFunction()">Submit</button>
 			</form>
 			
-			<p id="numUsed"></p>
-			
-			<script>
-			count = ${count};
-			function myFunction(){
-				count++;
-				document.getElementById("numUsed").innerHTML = "Number of times site was used = " + count;
-				document.getElementById("myForm").submit();
-			}
-			</script>
-	
+			<p id="numUsed">Number of times site was used = ${sessionScope.count}</p>
 		</div>
 	</div>
 	</body>

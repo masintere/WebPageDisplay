@@ -1,22 +1,17 @@
 package com.eric.servlet;
 
+// JDK 1.8
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicInteger;
 
-import javax.servlet.ServletContext;
 //Servlet import packages
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 //baseLib imports
 import com.baselib.servlet.BaseServlet;
-import com.eric.pojo.URLParser;
-import com.eric.pojo.htmlFormater;
-//project imports
-import com.eric.pojo.webAccessor;
+
 /**
  * Servlet implementation class Main
  */
