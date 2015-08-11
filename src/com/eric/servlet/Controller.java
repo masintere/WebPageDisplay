@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 //baseLib imports
-import com.baselib.servlet.BaseServlet;
 import com.eric.pojo.URLParser;
+import com.baselib.servlet.BaseServlet;
 import com.eric.pojo.HtmlFormater;
 //project imports
 import com.eric.pojo.WebAccessor;
@@ -73,9 +73,12 @@ public class Controller extends BaseServlet {
 		URLParser up = new URLParser(req.getParameter("url"));
 		WebAccessor wa = new WebAccessor(up.getUrl(), "User-Agent", USER_AGENTS.get(display));
 
+		HtmlFormater hf = new HtmlFormater(wa.getHtml(), display, up.getUrl());
+		wa.setHtml(hf.displayFormat());
+		
 		// TODO: Evaluate using three seperate user agents
 		if(req.getParameter("format").equals("source")){
-			HtmlFormater hf = new HtmlFormater(wa.getHtml(), display);
+			
 			req.setAttribute("htmlFormat", hf.format());
 		} else{
 			req.setAttribute("htmlFormat", wa.getHtml());

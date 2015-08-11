@@ -1,5 +1,6 @@
 package com.eric.pojo;
 
+import java.util.List;
 import java.util.Map;
 
 /****************************************************************************
@@ -17,40 +18,31 @@ import java.util.Map;
 public class HtmlFormater {
 	private String html;
 	private String display;
-	public static final String HEAD = "</head>";
+	private String url;
+	public static final String LINK = "<link";
 	public static final String HREF = "href=\"";
 
-	public HtmlFormater(String html, String display){
+	public HtmlFormater(String html, String display, String url){
 		this.html = html;
 		this.display = display;
+		this.url = url;
 	}
 	
 	public String displayFormat(){
-		int headPos = html.indexOf(HEAD);
-		String before = html.substring(0, headPos);
-		String after = html.substring(headPos, html.length() -1);
-		if(display.equals("mobile")){
-			html = before + "<style>\n.newBody{width:100%; max-width:300px;}</style>" + after;
-		}
-		if(display.equals("tablet")){
-			html = before + "<style>\n.newBody{width:100%; max-width:700px;}</style>" + after;
+		int linkPos = html.indexOf(LINK) + LINK.length();
+		int nxtlinkPos = 0;
+		while(nxtlinkPos - linkPos < 2){
+		nxtlinkPos = linkPos + 1;
+		int hrefPos = html.substring(linkPos).indexOf(HREF) + HREF.length();
+		String before = html.substring(0, linkPos + hrefPos);
+		String after = html.substring(linkPos + hrefPos, html.length() -1);
+		html =before + url + after;
+		linkPos = html.indexOf(LINK, nxtlinkPos) + LINK.length();
+		
 		}
 		
 		return html;
 	}
-	
-	public Map<Integer, String> returnLinks(){
-		return null;
-	}
-	
-	public String formattedHtml(){
-		return null;
-	}
-	
-	
-			
-			
-		
 	
 	/**
 	 * replaces all < and > in html code with &lt and &gt

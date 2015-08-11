@@ -19,7 +19,6 @@ public class URLParser {
 	public URLParser(String url){
 		this.url = url;
 		this.parseDisplay();
-		System.out.println("URL: " + url);
 	}
 	
 	/**
